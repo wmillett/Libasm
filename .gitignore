@@ -1,0 +1,11 @@
+# Default
+*
+
+# Except
+!*.s
+!*.c
+!*/
+!.gitignore
+
+obj/
+
