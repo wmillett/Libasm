@@ -1,7 +1,7 @@
 # Ignore
 *
 obj/
-
+test_obj/
 # Except
 !*.s
 !*.c
