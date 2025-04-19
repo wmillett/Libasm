@@ -1,12 +1,10 @@
-// test_strlen.c
 #include <stdio.h>
 #include <string.h>
 
 // Declaration of the assembly function
 extern int ft_strlen(const char *str);
 
-// Function to test ft_strlen
-void test_ft_strlen(const char *test_str) {
+void test_ft_strlen_case(const char *test_str) {
     int result = ft_strlen(test_str);
     int expected = strlen(test_str);
 
@@ -16,16 +14,15 @@ void test_ft_strlen(const char *test_str) {
         printf("Test failed for: \"%s\". Expected: %d, Got: %d\n", test_str, expected, result);
     }
 }
-
-int main() {
+// Function to test ft_strlen
+void test_ft_strlen() {
     // Test cases
     printf("Running tests for ft_strlen...\n");
-    test_ft_strlen("");                    // Test with an empty string
-    test_ft_strlen("A");                   // Test with a single character
-    test_ft_strlen("Hello, World!");       // Test with a typical string
-    test_ft_strlen("1234567890");          // Test with a numeric string
-    test_ft_strlen("This is a longer string to test."); // Test with a longer string
+    test_ft_strlen_case("");                    // Test with an empty string
+    test_ft_strlen_case("A");                   // Test with a single character
+    test_ft_strlen_case("Hello, World!");       // Test with a typical string
+    test_ft_strlen_case("1234567890");          // Test with a numeric string
+    test_ft_strlen_case("This is a longer string to test."); // Test with a longer string
     printf("All tests completed.\n");
-
-    return 0;
 }
+
