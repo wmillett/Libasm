@@ -1,5 +1,5 @@
 section .text
-global ft_strlen  ; Ensure this is exported
+    global ft_strlen  ; Ensure this is exported
 
 ft_strlen:
     xor rax, rax           ; Initialize length counter to 0

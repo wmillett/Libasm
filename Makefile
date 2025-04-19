@@ -1,4 +1,3 @@
-
 NAME = libasm.a
 
 SRC_DIR = src
@@ -14,7 +13,11 @@ TEST_BIN = test_binary
 
 CC = gcc
 NASM = nasm
-NASM_FLAGS = -f macho64  # NASM flags for 64-bit output format for MACOS, for linux use elf64
+ifeq ($(shell uname), Darwin)
+    NASM_FLAGS = -f macho64  # NASM flags for 64-bit output format for macOS
+else
+    NASM_FLAGS = -f elf64    # NASM flags for 64-bit output format for Linux
+endif
 RM = rm -f
 RMDIR = rm -rf
 
@@ -52,4 +55,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re test
+.PHONY: all clean fclean re test $(OBJ_DIR) $(TEST_OBJ_DIR)

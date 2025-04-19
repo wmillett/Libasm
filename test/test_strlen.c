@@ -19,11 +19,13 @@ void test_ft_strlen(const char *test_str) {
 
 int main() {
     // Test cases
+    printf("Running tests for ft_strlen...\n");
     test_ft_strlen("");                    // Test with an empty string
     test_ft_strlen("A");                   // Test with a single character
     test_ft_strlen("Hello, World!");       // Test with a typical string
     test_ft_strlen("1234567890");          // Test with a numeric string
     test_ft_strlen("This is a longer string to test."); // Test with a longer string
+    printf("All tests completed.\n");
 
     return 0;
 }
