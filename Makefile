@@ -7,11 +7,10 @@ TEST_OBJ_DIR = test_obj
 
 SRC := $(wildcard $(SRC_DIR)/*.s)
 OBJ := $(patsubst $(SRC_DIR)/%.s, $(OBJ_DIR)/%.o, $(SRC))
-TEST_SRC := $(filter-out $(TEST_DIR)/test_main.c, $(wildcard $(TEST_DIR)/*.c))
+TEST_SRC := $(wildcard $(TEST_DIR)/*.c)
 TEST_OBJ := $(patsubst $(TEST_DIR)/%.c, $(TEST_OBJ_DIR)/%.o, $(TEST_SRC))
-TEST_MAIN = $(TEST_DIR)/test_main.c
-TEST_MAIN_OBJ = $(TEST_OBJ_DIR)/test_main.o
-TEST_BIN = test_binary
+TEST_FILES = test_program test_output.txt
+
 
 CC = gcc
 CFLAGS = -fPIE -Wall -Wextra -Werror
@@ -42,20 +41,15 @@ $(TEST_OBJ_DIR):
 $(TEST_OBJ_DIR)/%.o: $(TEST_DIR)/%.c | $(TEST_OBJ_DIR)
 	@$(CC) $(CFLAGS) -o $@ -c $<
 
-$(TEST_MAIN_OBJ): $(TEST_MAIN) | $(TEST_OBJ_DIR)
-	@$(CC) $(CFLAGS) -o $(TEST_MAIN_OBJ) -c $(TEST_MAIN)
-
-$(TEST_BIN): $(NAME) $(TEST_OBJ) $(TEST_MAIN_OBJ)
-	@$(CC) $(LDFLAGS) -o $(TEST_BIN) $(TEST_OBJ) $(TEST_MAIN_OBJ) $(NAME)
-
-test: $(TEST_BIN)
-	@./$(TEST_BIN)
+test: $(NAME) $(TEST_OBJ)
+	@$(CC) $(LDFLAGS) -o test_program $(TEST_OBJ) $(NAME)
+	@./test_program
 
 clean:
 	@$(RM) $(OBJ_DIR)/*.o
 	@$(RM) $(TEST_OBJ_DIR)/*.o
 	@$(RMDIR) $(OBJ_DIR) $(TEST_OBJ_DIR)
-	@$(RM) $(TEST_BIN)
+	@$(RM) $(TEST_FILES)
 
 fclean: clean
 	@$(RM) $(NAME)

@@ -41,9 +41,10 @@ void test_ft_write() {
     // Test writing to an invalid file descriptor
     printf("Testing ft_write to invalid file descriptor...\n");
     bytes_written = ft_write(-1, test_str, strlen(test_str));
-    if (bytes_written == -1 && errno == EBADF) {
+    int saved_errno = errno;  // Save errno immediately after the call
+    if (bytes_written == -1 && saved_errno == EBADF) {
         printf("Test passed: ft_write returned -1 and set errno to EBADF\n");
     } else {
-        printf("Test failed: expected -1 and EBADF, got %zd and errno %d\n", bytes_written, errno);
+        printf("Test failed: expected -1 and EBADF, got %zd and errno %d\n", bytes_written, saved_errno);
     }
 }

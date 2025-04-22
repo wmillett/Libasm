@@ -1,11 +1,12 @@
 section .text
-    global ft_strdup
-    extern malloc
-    extern ft_strlen
+global ft_strdup
+extern malloc
+extern ft_strlen
+extern __errno_location
 
 ft_strdup:
     ; Save the original string pointer
-    mov rsi, rdi
+    mov rdi, rsi
 
     ; Call ft_strlen to get the length of the string
     call ft_strlen
@@ -16,20 +17,29 @@ ft_strdup:
 
     ; Allocate memory for the new string
     mov rdi, rcx
-    call malloc
+    call malloc wrt ..plt  ; Use PLT for position-independent code
     test rax, rax
     jz malloc_failed
 
+    ; Save the original string pointer and length
+    push rsi
+    push rcx
+
     ; Copy the original string to the new memory
-    mov rdi, rax
-    mov rsi, [rsp + 8]
-    mov rcx, [rsp]
+    mov rdi, rax        ; destination
+    pop rcx             ; length
+    pop rsi             ; source
     rep movsb
 
     ; Return the pointer to the new string
     ret
 
 malloc_failed:
-    ; If malloc fails, return NULL
+    ; If malloc fails, set errno to ENOMEM
+    mov rdi, 12  ; ENOMEM error code
+    call __errno_location wrt ..plt
+    mov [rax], rdi
+
+    ; Return NULL to indicate failure
     xor rax, rax
     ret

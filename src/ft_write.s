@@ -1,6 +1,6 @@
 section .text
 global ft_write  ; Ensure this is exported
-extern ___error  ; External symbol to get the address of errno
+extern __errno_location  ; External symbol to get the address of errno
 
 ft_write:
     ; Parameters:
@@ -21,8 +21,9 @@ ft_write:
 handle_error:
     ; Syscall failed, set errno
     neg rax             ; negate rax to get the positive error code
-    call ___error       ; get the address of errno
-    mov [rax], rax      ; set errno to the error code
+    mov rdi, rax        ; move the error code to rdi
+    call __errno_location wrt ..plt  ; get the address of errno
+    mov [rax], rdi      ; set errno to the error code
 
     ; Return -1 to indicate failure
     mov rax, -1
