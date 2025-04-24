@@ -5,8 +5,8 @@ extern ft_strlen
 extern __errno_location
 
 ft_strdup:
-    ; Save the original string pointer
-    mov rdi, rsi
+    ; Save the original string pointer in rsi
+    mov rsi, rdi
 
     ; Call ft_strlen to get the length of the string
     call ft_strlen
