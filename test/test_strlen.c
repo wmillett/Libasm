@@ -17,6 +17,7 @@ void test_ft_strlen_case(const char *test_str) {
 // Function to test ft_strlen
 void test_ft_strlen() {
     // Test cases
+    printf("---------------------\n");
     printf("Running tests for ft_strlen...\n");
     test_ft_strlen_case("");                    // Test with an empty string
     test_ft_strlen_case("A");                   // Test with a single character
@@ -24,5 +25,6 @@ void test_ft_strlen() {
     test_ft_strlen_case("1234567890");          // Test with a numeric string
     test_ft_strlen_case("This is a longer string to test."); // Test with a longer string
     printf("All tests completed.\n");
+    printf("---------------------\n");
 }
 

@@ -17,6 +17,7 @@ void test_ft_strcpy_case(const char *src, const char *expected) {
 // Function to test ft_strcpy
 void test_ft_strcpy() {
     // Test cases
+    printf("---------------------\n");
     printf("Running tests for ft_strcpy...\n");
     test_ft_strcpy_case("", "");                    // Test with an empty string
     test_ft_strcpy_case("A", "A");                   // Test with a single character
@@ -24,4 +25,5 @@ void test_ft_strcpy() {
     test_ft_strcpy_case("1234567890", "1234567890");          // Test with a numeric string
     test_ft_strcpy_case("This is a longer string to test.", "This is a longer string to test."); // Test with a longer string
     printf("All tests completed.\n");
+    printf("---------------------\n");
 }

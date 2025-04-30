@@ -5,41 +5,53 @@ extern ft_strlen
 extern __errno_location
 
 ft_strdup:
-    ; Save the original string pointer in rsi
-    mov rsi, rdi
+    ; Check for NULL input first
+    test rdi, rdi
+    jz handle_null
 
-    ; Call ft_strlen to get the length of the string
+    ; Save the original string pointer
+    push rdi
+
+    ; Call ft_strlen to get the length
     call ft_strlen
 
-    ; Save the length in rcx and add 1 for the null terminator
-    mov rcx, rax
-    inc rcx
+    ; Restore original string pointer to rsi
+    pop rsi
 
-    ; Allocate memory for the new string
-    mov rdi, rcx
-    call malloc wrt ..plt  ; Use PLT for position-independent code
+    ; Calculate length + 1 for null terminator
+    lea rdi, [rax + 1]
+
+    ; Save the length and original pointer
+    push rsi
+    push rdi
+
+    ; Allocate memory
+    call malloc wrt ..plt
     test rax, rax
     jz malloc_failed
 
-    ; Save the original string pointer and length
-    push rsi
-    push rcx
-
-    ; Copy the original string to the new memory
+    ; Set up for string copy
     mov rdi, rax        ; destination
-    pop rcx             ; length
+    pop rcx             ; length + 1
     pop rsi             ; source
+
+    ; Copy the string
     rep movsb
 
-    ; Return the pointer to the new string
+    ; Return the new string
+    ret
+
+handle_null:
+    ; Return NULL for NULL input
+    xor rax, rax
     ret
 
 malloc_failed:
-    ; If malloc fails, set errno to ENOMEM
-    mov rdi, 12  ; ENOMEM error code
+    ; Set errno to ENOMEM (12)
+    mov rdi, 12
     call __errno_location wrt ..plt
     mov [rax], rdi
 
-    ; Return NULL to indicate failure
+    ; Return NULL
     xor rax, rax
     ret
